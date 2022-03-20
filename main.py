@@ -1,12 +1,15 @@
 import os
+import sys
 import shutil
 import time
+import threading
 
 from pygame import mixer
 
 from fifteen_api import FifteenAPI
 
 letterLimit = 199  # The limit that the AI can read.
+wordWrap = 100  # The amount of characters the program will print before it wraps the words
 
 AI_R = FifteenAPI()  # Initialise reader AI
 mixer.init()
@@ -14,6 +17,29 @@ mixer.init()
 def clearScreen():
     for i in range(0, 20):
         print("\n\n\n\n\n\n")
+
+def scrollText(text, totalTime):
+    charDelay = totalTime / len(text)
+    wordCount = 0
+    for i in text:
+        sys.stdout.flush()
+        sys.stdout.write(i)
+        wordCount += 1
+        if wordCount >= wordWrap and i == ' ':
+            print("")
+            wordCount = 0
+        time.sleep(charDelay)
+
+class ScrollTextClass(threading.Thread):
+    def __init__ (self, threadID, name, text ,textTime):
+        threading.Thread.__init__(self)
+        self.threadID = threadID
+        self.name = name
+        self.text = text
+        self.textTime = textTime
+
+    def run(self):
+        scrollText(self.text, self.textTime)
 
 for filename in os.listdir('audio'):
     file_path = os.path.join('audio', filename)
@@ -67,7 +93,7 @@ for line in lines:
 clearScreen()
 charVocals = []
 for char in characters:
-    vocal = [char, "Sans"]
+    vocal = [char, "Chell"]
     newChar = input("Enter a character to voice " + vocal[0] + " (default is " + vocal[1] + "): ")
     clearScreen()
     print("Processing request...")
@@ -97,6 +123,8 @@ linesVoicing = []
 for line in lines:
     clearScreen()
     print("Loading story (may take a while) [" + (str(round((lines.index(line) / (len(lines) - 1)) * 100))) + "%]...")
+    print("Currently processing line:")
+    print(line)
     totalVoice = [narratorName, line, []]
     voiceLine = line
     letterCount = 0
@@ -146,20 +174,26 @@ for line in lines:
     linesVoicing.append(totalVoice)
 
 clearScreen()
+print("Story is ready! Press enter to begin!")
 input()
 
 clearScreen()
 for i in linesVoicing:
-    if i[0] == narratorName:
-        print(i[1])
-    else:
-        print(i[0] + ": " + i[1])
+    textTime = 0
+    for j in i[2]:
+        tts = mixer.Sound(j)
+        textTime += tts.get_length()
+    sys.stdout.flush()
+    sys.stdout.write(i[0] + ": ")
+    t_thread = ScrollTextClass(1, "Thread-Text", i[1], textTime)
+    t_thread.start()
     for j in i[2]:
         tts = mixer.Sound(j)
         tts.play()
         time.sleep(tts.get_length())
         tts.stop()
     input()
+    t_thread.join()
     clearScreen()
 
 print("Story is done!")
