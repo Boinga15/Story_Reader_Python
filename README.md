@@ -19,4 +19,8 @@ Heavy | It is a good day!
 
 Note: You must ensure that each line has a letter in them and doesn't use { or }.
 
+Finally, putting !!! after a character's sentance will allow you to define their emotion afterwards (Such as using | in 15.ai):
+
+Heavy | It is a good day! !!! SPY!
+
 After the program parses the text and creates the audio files, you'll be able to listen to your story one line at a time with each appropriate character reading out each line.
