@@ -25,4 +25,6 @@ Heavy | It is a good day! !!! SPY!
 
 After the program parses the text and creates the audio files, you'll be able to listen to your story one line at a time with each appropriate character reading out each line.
 
-StoryReader.py is a secondary file which you can run to read the current story stored in the "audio" folder. Note that you'll have to have first run main.py to initialise the story before running StoryReader.py.
+After making a story, you can re-read it, edit it, or even delete it.
+
+This project was made for both practice as well as because I wanted to make an automatic story reader, since one like this one didn't exist.
