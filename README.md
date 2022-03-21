@@ -28,3 +28,5 @@ After the program parses the text and creates the audio files, you'll be able to
 After making a story, you can re-read it, edit it, or even delete it.
 
 This project was made for both practice as well as because I wanted to make an automatic story reader, since one like this one didn't exist.
+
+Uses Wafflecomposite's 15.ai python script (https://github.com/wafflecomposite/15.ai-Python-API).
