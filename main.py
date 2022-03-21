@@ -64,6 +64,7 @@ else:
     print("Narrator switched to " + newNarrator + ".")
     narratorName = newNarrator
 
+os.unlink("Read.wav")
 input()
 clearScreen()
 
@@ -102,10 +103,11 @@ for char in characters:
         print("Processing request...")
         print("That character doesn't exist! Using " + vocal[1] + " instead...")
     else:
-        print("Character is now voiced by " + newChar + ".")
+        print(vocal[0] + " is now voiced by " + newChar + ".")
         vocal[1] = newChar
 
     charVocals.append(vocal)
+    os.unlink("Read.wav")
     input()
     clearScreen()
 
@@ -134,6 +136,17 @@ for line in lines:
         totalVoice[0] = targetLine[0]
         totalVoice[1] = targetLine[1]
         voiceLine = targetLine[1]
+        targetLine = targetLine[1]
+        if "!!!" in targetLine:
+            targetLine = targetLine.split(" !!! ")
+            totalVoice[1] = targetLine[0]
+            targetLine = targetLine[0] + " | " + targetLine[1]
+            voiceLine = targetLine
+    elif "!!!" in targetLine:
+        targetLine = targetLine.split(" !!! ")
+        totalVoice[1] = targetLine[0]
+        targetLine = targetLine[0] + " | " + targetLine[1]
+        voiceLine = targetLine
 
     parsedString = ""
     wavNumber = 0
@@ -184,7 +197,10 @@ for i in linesVoicing:
         tts = mixer.Sound(j)
         textTime += tts.get_length()
     sys.stdout.flush()
-    sys.stdout.write(i[0] + ": ")
+    if i[0] == narratorName:
+        sys.stdout.write(i[0] + " (Narrator): ")
+    else:
+        sys.stdout.write(i[0] + ": ")
     t_thread = ScrollTextClass(1, "Thread-Text", i[1], textTime)
     t_thread.start()
     for j in i[2]:
