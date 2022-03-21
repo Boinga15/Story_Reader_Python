@@ -1,0 +1,3 @@
+Heavy | It is good day! | stories/Base Story (DELETE)/audio/WAV0.wav,
+Chell | This is just narration. Next is with a different emotion. | stories/Base Story (DELETE)/audio/WAV1.wav,
+Heavy | It's a good day! | stories/Base Story (DELETE)/audio/WAV2.wav,

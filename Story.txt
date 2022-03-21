@@ -1,0 +1,5 @@
+Heavy | It is good day!
+
+This is just narration. Next is with a different emotion.
+
+Heavy | It's a good day! | It's such a bad day!
